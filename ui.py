@@ -7,26 +7,23 @@ from Niladb import test
 
     
 def bugspray():
-    print("Congratz you have fixed five bugs today!!!")
+    print("You have unlocked the achivement 'Bug Sprayer!!'")
 
 
 def ui():
-    while True:
-        try:
+    try:
+        while True:
             print("Connecting to the server....")
             print("Connection successful")
 
             print("Wellcome to Niila Games achivement scoreboard")
-
-
-            
-            print(" Press 1 view your acheviemnt score\n Press 2 to update your progress\n Press 3 to exit the program\n")
+            print(" Press 1 view your acheviemnt score\n Press 2 to update your progress\n Press Crtl+ c to exit the program\n")
 
             menu = input()
 
             if menu == "1":
                 print("Chose your user")
-
+                #Make a connction to db
                 #return(user)
             elif menu == "2":
                 print("What would you like to update?\n")
@@ -50,13 +47,12 @@ def ui():
                         bugspray()
                 elif choice == "2":    
                     print('Going back to main menu')
-
-            elif menu == "3":
-                print("Closing the connection")
-                SystemExit
         
-        except ValueError:
-            print("That is not a valid option\n Please try again")
+    except KeyboardInterrupt:
+        print("Closing the connection....")
+        SystemExit
+    except ValueError:
+        print("That is not a valid option\n Please try again")
             
 ui()
 test()
