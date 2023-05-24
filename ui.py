@@ -4,64 +4,122 @@
 # in the beginning make a version that does not connect to the internet
 # But in the end it needs to connect to the internet
 
-    
+#1.5: Try to create the db with first function
+
+# 2: Create a function that can write to a database keep it local first and then later try to make it work over the internet
+
+# 3 Implement a function that makes changeing users possible
+
+import Niiladb
+import sqlite3
+
+dbname= ('Niila.db')    
+con = sqlite3.connect('Niila.db')
+
 def bugspray():
     print("You have unlocked the achivement 'Bug Sprayer!!'")
 
-
 def ui():
+    currentUser = ""
+    count = 1
     try:
+        Niiladb.createDB()
         while True:
-            print("Connecting to the server....")
-            print("Connection successful")
+                with con:
+                    cur= con.cursor()
+                    print("Connecting to the server....")
+                    print("Connection successful")
+                    if(count== 1):
+                        print("in 1")
+                        print('Hello ', currentUser)
+                    elif(count== 2):
+                         print("in 2")
+                         print("Hello ",returnUser())
+                         #print("Your current score is:", )
+                    elif(count==3):
+                         print("in 3")
+                         print("Hello ", changedUser()) #THERE NEEDS TO BE A CHANGE USER OPTION 
+                    print("Wellcome to Niila Games achivement scoreboard")
+                    print(" Press 1 To register a new user\n Press 2 to change the user(STILL IN DEVELEOPMENT!!!)\n Press 3 to update your progress\n Press Crtl+ c to exit the program")
+                    print(" Enter the secret password to wipe the database")
+                    menu = input()
 
-            print("Wellcome to Niila Games achivement scoreboard")
-            print(" Press 1 view your acheviemnt score\n Press 2 to update your progress\n Press Crtl+ c to exit the program\n")
+                    if menu == "1":
+                        print("Enter your ID and Name")
+                        #Make a connction to db
+                        uid = input("Please ener your ID:\n")
+                        name = input("Please enter your name:\n")
+                        score = 0
+                        cur.execute("INSERT INTO USERS VALUES(?,?,?)",(uid,name,score))
+                        con.commit()
+                        def returnUser():
+                             updateUser = name
+                             currentscore = score
+                             return updateUser
+                        count = 2
+                        
 
-            menu = input()
+                    elif menu == "2":
+                         print("Which user would you like to log in as instead")   
+                         uid = input("Please enter your ID: ")  
+                         name = input("Please enter your name: ")
+                         #There should be some sql statements that changes which row is in use 
+                         # SELET FROM USER WHERE ID IS x
+                         cur.execute("SELECT * FROM USERS WHERE ID =(?) AND NAME = (?)",(uid,name))  
+                         def changedUser():
+                              changedUser= name
+                              return changedUser
+                         count = 3
+                    
+                    elif menu == "3":
+                        print("What would you like to update?\n")
+                        print("Press 1 if you fixed a bug")
+                        print("Press 2 if you have helped your teamate")
+                        print("Press 2 to go back to the main menu")
+                        choice = input()
+                        if choice == "1": 
+                            print('How manny bugs have you killed today?')
+                            bugs = input()
+                            if bugs =="1":
+                                print("Updating, you have fixd one bug today!!")
+                            elif bugs =="2":
+                                print("Updating, you have fixd two bugs today!!")
+                            elif bugs == "3":
+                                print("Updating, you have fixed three bugs today!!")
+                            elif bugs =="4":
+                                print("Updating, you have fixed four bugs today!!\n Well done")
+                            elif bugs =="5":
+                                print("Updating, you have fixed five bugs today!!!\n Well done, heres an achivement")
+                                bugspray()
+                                #cur.execute("INSERT INTO u") note her skal der være to databaser som hver for deres data
+                        elif choice == "3":    
+                            #Vi kan altid lave denen del om til en mere passende arbejdsopgave
+                            print('What did you help your teamate completing?')
+                            print(" Pres 1 i helped my teamate with x")
+                            print(" Pres 2 i helped my teamate with y")
+                            print(" Pres 3 i helped my teamate with z")
+                            help = input()
+                            if help == "1":
+                                print("Hey good job, pat youself on the back")
+                            elif help == "2":
+                                print("hejsa")
+                            elif help == "3":
+                                print("Hejsa2 Godt klaret")
+                    elif menu == "admin":
+                        print("Are you sure you would like to wipe the database of all its data?\n Press y if you want to delete all data, Press n if you don't want to wipe the database of all its data")
+                        delete= input()
+                        if delete == "y":
+                            print("Database wiped")
+                            cur.execute("DELETE FROM USERS")
+                            con.commit()
+                        elif delete == "n":
+                            print("Returning to main menu....")
 
-            if menu == "1":
-                print("Chose your user")
-                #Make a connction to db
-                #return(user)
-            elif menu == "2":
-                print("What would you like to update?\n")
-                print("Press 1 if you fixed a bug")
-                print("Press 2 if you have helped your teamate")
-                print("Press 2 to go back to the main menu")
-                choice = input()
-
-                if choice == "1": 
-                    print('How manny bugs have you killed today?')
-                    bugs = input()
-                    if bugs =="1":
-                        print("Updating, you have fixd one bug today!!")
-                    elif bugs =="2":
-                        print("Updating, you have fixd two bugs today!!")
-                    elif bugs == "3":
-                        print("Updating, you have fixed three bugs today!!")
-                    elif bugs =="4":
-                        print("Updating, you have fixed four bugs today!!\n Well done")
-                    elif bugs =="5":
-                        print("Updating, you have fixed five bugs today!!!\n Well done, heres an achivement")
-                        bugspray()
-                elif choice == "3":    
-                    #Vi kan altid lave denen del om til en mere passende arbejdsopgave
-                    print('What did you help your teamate completing?')
-                    print(" Pres 1 i helped my teamate with x")
-                    print(" Pres 2 i helped my teamate with y")
-                    print(" Pres 3 i helped my teamate with z")
-                    help = input()
-                    if help == "1":
-                        print("Hey good job, pat youself on the back")
-                    if help == "2":
-                        print("hejsa")
-                    if help == "3":
-                        print
     except KeyboardInterrupt:
-        print("Closing the connection....")
-        SystemExit
+                print(" Closing the connection....")
+                con.close
+                SystemExit
     except ValueError:
-        print("That is not a valid option\n Please try again")
-            
+                print("That is not a valid option\n Please try again")
+                    
 ui()
