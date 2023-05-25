@@ -16,48 +16,57 @@ import sqlite3
 dbname= ('Niila.db')    
 con = sqlite3.connect('Niila.db')
 
-def bugspray():
-    print("You have unlocked the achivement 'Bug Sprayer!!'")
+
 
 def ui():
-    currentUser = ""
+    emptyUser = ""
     count = 1
     try:
         Niiladb.createDB()
         while True:
                 with con:
+
                     cur= con.cursor()
                     print("Connecting to the server....")
                     print("Connection successful")
+                    
                     if(count== 1):
                         print("in 1")
-                        print('Hello ', currentUser)
+                        print('Hello', emptyUser)
+                    
                     elif(count== 2):
                          print("in 2")
-                         print("Hello ",returnUser())
-                         #print("Your current score is:", )
+                         print("Hello, the current ID, Name and Points of the user is:\n",createdUser())
+                        
+                    
+                    #elif(count==3):
+                         #print("in 3")
+                         #print("Hello, the current ID, Name and Points of the user is:\n", createdUser())
+
+
+                 # HERE WE NEED A FUNCTION THAT CAN UPDTAE THE CURRENT SCORE OF THE USERS
+                 # FOUND THE UPDATING STATEMENT: "UPDATE USERS SET SCORE = X WHERE  ID = X"
+
                     elif(count==3):
-                         print("in 3")
-                         print("Hello ", changedUser()) #THERE NEEDS TO BE A CHANGE USER OPTION 
+                        print("NEEDS TO BE IMPLEMENTED")
+                        print("Please enter the ID/NAME of which users score you want to update:")
+                        print("Hello", createdUser())
+                        print("Here is your updated score:")
+
                     print("Wellcome to Niila Games achivement scoreboard")
-                    print(" Press 1 To register a new user\n Press 2 to change the user(STILL IN DEVELEOPMENT!!!)\n Press 3 to update your progress\n Press Crtl+ c to exit the program")
+                    print(" Press 1 To register a new user\n Press 2 to change the user\n Press 3 to update your progress (STILL IN DEVELEOPMENT!!!)\n Press Crtl+ c to exit the program")
                     print(" Enter the secret password to wipe the database")
                     menu = input()
 
                     if menu == "1":
                         print("Enter your ID and Name")
-                        #Make a connction to db
                         uid = input("Please ener your ID:\n")
                         name = input("Please enter your name:\n")
-                        score = 0
-                        cur.execute("INSERT INTO USERS VALUES(?,?,?)",(uid,name,score))
+                        startscore = 0
+                        cur.execute("INSERT INTO USERS VALUES(?,?,?)",(uid,name,startscore))
                         con.commit()
-                        def returnUser():
-                             updateUser = name
-                             currentscore = score
-                             return updateUser
+                       
                         count = 2
-                        
 
                     elif menu == "2":
                          print("Which user would you like to log in as instead")   
@@ -65,17 +74,31 @@ def ui():
                          name = input("Please enter your name: ")
                          #There should be some sql statements that changes which row is in use 
                          # SELET FROM USER WHERE ID IS x
-                         cur.execute("SELECT * FROM USERS WHERE ID =(?) AND NAME = (?)",(uid,name))  
-                         def changedUser():
-                              changedUser= name
-                              return changedUser
-                         count = 3
-                    
+                         #IMPLEMENT A CURRENT SCORE SYSTEM
+                         #cur.execute("SELECT * FROM USERS WHERE ID =(?) AND NAME = (?)",(uid,name))  
+                         #def changedUser():
+                              #changedUser= name
+                              #return changedUser
+                         count = 2
+
                     elif menu == "3":
+                        #note IF THE INPUT DOES NOT MATCH THE ID AND NAME OF ANY SAVED ROW IN THE DB THE PROGRAM WILL CRASH
+                        print("UPDATE YOU SCORE TEST")
+                        uid = input("Please enter your ID: ")
+                        name = input("Please enter your name: ")
+                        print("TEST, GIVE 10 POINTS ")
+                        cur.execute("UPDATE USERS SET SCORE= SCORE+ 10 WHERE ID=(?) AND NAME =(?)",(uid, name))
+                        count= 2
+                        
+
+
+                    
+                    #NOT COMPLETED
+                    elif menu == "99":
                         print("What would you like to update?\n")
                         print("Press 1 if you fixed a bug")
                         print("Press 2 if you have helped your teamate")
-                        print("Press 2 to go back to the main menu")
+                        print("Press any other button to go back to the main menu")
                         choice = input()
                         if choice == "1": 
                             print('How manny bugs have you killed today?')
@@ -90,9 +113,10 @@ def ui():
                                 print("Updating, you have fixed four bugs today!!\n Well done")
                             elif bugs =="5":
                                 print("Updating, you have fixed five bugs today!!!\n Well done, heres an achivement")
-                                bugspray()
+                                #bugspray()
                                 #cur.execute("INSERT INTO u") note her skal der være to databaser som hver for deres data
-                        elif choice == "3":    
+                        
+                        elif choice == "2":    
                             #Vi kan altid lave denen del om til en mere passende arbejdsopgave
                             print('What did you help your teamate completing?')
                             print(" Pres 1 i helped my teamate with x")
@@ -105,6 +129,7 @@ def ui():
                                 print("hejsa")
                             elif help == "3":
                                 print("Hejsa2 Godt klaret")
+                    
                     elif menu == "admin":
                         print("Are you sure you would like to wipe the database of all its data?\n Press y if you want to delete all data, Press n if you don't want to wipe the database of all its data")
                         delete= input()
@@ -115,6 +140,11 @@ def ui():
                         elif delete == "n":
                             print("Returning to main menu....")
 
+                    def createdUser():
+                        selectedUserName = cur.execute("SELECT * FROM USERS WHERE ID =(?) AND NAME =(?) ",(uid,name))
+                        selectedUser = selectedUserName.fetchall()
+                        return selectedUser
+
     except KeyboardInterrupt:
                 print(" Closing the connection....")
                 con.close
@@ -123,3 +153,7 @@ def ui():
                 print("That is not a valid option\n Please try again")
                     
 ui()
+
+
+#def bugspray():
+#    print("You have unlocked the achivement 'Bug Sprayer!!'")
