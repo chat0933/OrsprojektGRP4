@@ -15,6 +15,7 @@
 import Niiladb
 import sqlite3
 import threading
+import ach_ide_3
 
 dbname= ('Niila.db')    
 con = sqlite3.connect('Niila.db')
@@ -24,6 +25,7 @@ def ui():
     count = 1
     try:
         Niiladb.createDB()
+        ach_ide_3.createachivementsDB()
         while True:
                 with con:
 
@@ -90,7 +92,9 @@ def ui():
                         print("TEST, GIVE 10 POINTS ")
                         cur.execute("UPDATE USERS SET SCORE= SCORE+ 10 WHERE ID=(?) AND NAME =(?)",(uid, name))
                         print("WE NEED SOME MORE INPUTS THAT LETS US CHOSE THE ACHIVEMENT WE WANT TO ADD / ACTIVATE ")
-                        count= 2                                            
+                        
+                        count= 2
+                                                                    
                     
                     elif menu == "admin":
                         print("Are you sure you would like to wipe the database of all its data?\n Press y if you want to delete all data, Press n if you don't want to wipe the database of all its data")
@@ -99,6 +103,7 @@ def ui():
                             print("Database wiped")
                             cur.execute("DELETE FROM USERS")
                             con.commit()
+                            #ach_ide_3.clearchivements()
                         elif delete == "n":
                             print("Returning to main menu....")
 
