@@ -19,7 +19,7 @@ class Task:
                 print(f"Achievement '{achievement.name}' completed!")
                 return
         print(f"Achievement '{achievement_name}' not found for this task.")
-              
+
 conn = sqlite3.connect("achievements.db")
 cursor = conn.cursor()
 
@@ -49,6 +49,12 @@ cursor.execute("INSERT INTO achievements VALUES (?, ?, ?)", (achievement6.name, 
 cursor.execute("INSERT INTO achievements VALUES (?, ?, ?)", (achievement7.name, achievement7.description, achievement7.completed))
 cursor.execute("INSERT INTO achievements VALUES (?, ?, ?)", (achievement8.name, achievement8.description, achievement8.completed))
 
+# Create user tables
+cursor.execute("CREATE TABLE IF NOT EXISTS user1 AS SELECT * FROM achievements")
+cursor.execute("CREATE TABLE IF NOT EXISTS user2 AS SELECT * FROM achievements")
+cursor.execute("CREATE TABLE IF NOT EXISTS user3 AS SELECT * FROM achievements")
+cursor.execute("CREATE TABLE IF NOT EXISTS user4 AS SELECT * FROM achievements")
+cursor.execute("CREATE TABLE IF NOT EXISTS user5 AS SELECT * FROM achievements")
 
 conn.commit()
 
@@ -61,7 +67,6 @@ task5 = Task("BuggerFugger", "Complete 500 bug fixes", [achievement5])
 task6 = Task("ANTtomic bomb", "Complete 750 bug fixes", [achievement6])
 task7 = Task("Weapon of Moth Destruction", "Complete 1000 bug fixes", [achievement7])
 task8 = Task("The Bug Banisher - Weaponizing marvellous disinfection", "Complete 5000 bug fixes", [achievement8])
-
 
 bug_fixes = 187
 print("...")
@@ -90,12 +95,16 @@ if bug_fixes >= 1000:
 if bug_fixes >= 5000:
     task8.complete_achievement("The Bug Banisher - Weaponizing marvellous disinfection")
 
-
 print("...")
 
 # Update achievement status in the database
 for achievement in [achievement1, achievement2, achievement3, achievement4, achievement5, achievement6, achievement7, achievement8]:
     cursor.execute("UPDATE achievements SET completed = ? WHERE name = ?", (achievement.completed, achievement.name))
+    cursor.execute("UPDATE user1 SET completed = ? WHERE name = ?", (achievement.completed, achievement.name))
+    cursor.execute("UPDATE user2 SET completed = ? WHERE name = ?", (achievement.completed, achievement.name))
+    cursor.execute("UPDATE user3 SET completed = ? WHERE name = ?", (achievement.completed, achievement.name))
+    cursor.execute("UPDATE user4 SET completed = ? WHERE name = ?", (achievement.completed, achievement.name))
+    cursor.execute("UPDATE user5 SET completed = ? WHERE name = ?", (achievement.completed, achievement.name))
     conn.commit()
 
 # Calculate the sum of completed values
@@ -104,6 +113,11 @@ sum_completed = cursor.fetchone()[0]
 
 # Update the sum value in the database
 cursor.execute("UPDATE achievements SET completed = ? WHERE name = ?", (sum_completed, "Total Completed"))
+cursor.execute("UPDATE user1 SET completed = ? WHERE name = ?", (sum_completed, "Total Completed"))
+cursor.execute("UPDATE user2 SET completed = ? WHERE name = ?", (sum_completed, "Total Completed"))
+cursor.execute("UPDATE user3 SET completed = ? WHERE name = ?", (sum_completed, "Total Completed"))
+cursor.execute("UPDATE user4 SET completed = ? WHERE name = ?", (sum_completed, "Total Completed"))
+cursor.execute("UPDATE user5 SET completed = ? WHERE name = ?", (sum_completed, "Total Completed"))
 conn.commit()
 
 # Create total_completed table
@@ -120,7 +134,68 @@ cursor.execute("SELECT * FROM achievements")
 achievements = cursor.fetchall()
 
 # Print achievement status
+print("Achievements:")
 for achievement in achievements:
+    name, description, completed = achievement
+    print(f"Achievement: {name}")
+    print(f"Description: {description}")
+    print(f"Status: {'Completed' if completed else 'Incomplete'}")
+    print()
+
+# Retrieve user1 achievement status from the database
+cursor.execute("SELECT * FROM user1")
+user1_achievements = cursor.fetchall()
+
+print("User1 Achievements:")
+for achievement in user1_achievements:
+    name, description, completed = achievement
+    print(f"Achievement: {name}")
+    print(f"Description: {description}")
+    print(f"Status: {'Completed' if completed else 'Incomplete'}")
+    print()
+
+# Retrieve user2 achievement status from the database
+cursor.execute("SELECT * FROM user2")
+user2_achievements = cursor.fetchall()
+
+print("User2 Achievements:")
+for achievement in user2_achievements:
+    name, description, completed = achievement
+    print(f"Achievement: {name}")
+    print(f"Description: {description}")
+    print(f"Status: {'Completed' if completed else 'Incomplete'}")
+    print()
+
+# Retrieve user3 achievement status from the database
+cursor.execute("SELECT * FROM user3")
+user3_achievements = cursor.fetchall()
+
+print("User3 Achievements:")
+for achievement in user3_achievements:
+    name, description, completed = achievement
+    print(f"Achievement: {name}")
+    print(f"Description: {description}")
+    print(f"Status: {'Completed' if completed else 'Incomplete'}")
+    print()
+
+# Retrieve user4 achievement status from the database
+cursor.execute("SELECT * FROM user4")
+user4_achievements = cursor.fetchall()
+
+print("User4 Achievements:")
+for achievement in user4_achievements:
+    name, description, completed = achievement
+    print(f"Achievement: {name}")
+    print(f"Description: {description}")
+    print(f"Status: {'Completed' if completed else 'Incomplete'}")
+    print()
+
+# Retrieve user5 achievement status from the database
+cursor.execute("SELECT * FROM user5")
+user5_achievements = cursor.fetchall()
+
+print("User5 Achievements:")
+for achievement in user5_achievements:
     name, description, completed = achievement
     print(f"Achievement: {name}")
     print(f"Description: {description}")
