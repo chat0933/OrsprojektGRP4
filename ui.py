@@ -14,21 +14,24 @@
 
 import Niiladb
 import sqlite3
-import threading
+#import _thread
 import ach_ide_3
+#import app 
 
-dbname= ('Niila.db')    
-con = sqlite3.connect('Niila.db')
+#dbname= ('Niila.db')    
+con = sqlite3.connect('Niila.db', check_same_thread=False)
+#achDB = AchiveDB
+#achInsert = achiveinsert
 
 def ui():
     emptyUser = ""
     count = 1
     try:
         Niiladb.createDB()
-        ach_ide_3.createachivementsDB()
+        ach_ide_3.AchiveDB()
+        #app.runAPP()
         while True:
                 with con:
-
                     cur= con.cursor()
                     print("Connecting to the server....")
                     print("Connection successful")
@@ -39,7 +42,7 @@ def ui():
                     
                     elif(count== 2):
                          print("in 2")
-                         print("Hello, the current ID, Name and Points of the user is:\n",createdUser())
+                         print("Hello, the current ID and Name of the user is:\n",createdUser())
                         
                     
                     #elif(count==3):
@@ -52,9 +55,9 @@ def ui():
 
                     elif(count==3):
                         print("NEEDS TO BE IMPLEMENTED")
-                        print("Please enter the ID/NAME of which users score you want to update:")
+                        print("Please enter the ID/NAME of which user you want to update:")
                         print("Hello", createdUser())
-                        print("Here is your updated score:")
+                        #print("Here is your updated score:")
 
                     print("Wellcome to Niila Games achivement scoreboard")
                     print(" Press 1 To register a new user\n Press 2 to change the user\n Press 3 to update your progress (STILL IN DEVELEOPMENT!!!)\n Press Crtl+ c to exit the program")
@@ -65,8 +68,9 @@ def ui():
                         print("Enter your ID and Name")
                         uid = input("Please ener your ID:\n")
                         name = input("Please enter your name:\n")
-                        startscore = 0
-                        cur.execute("INSERT INTO USERS VALUES(?,?,?)",(uid,name,startscore))
+                        #startscore = 0
+                        #Vi havde implementeret et score system men x fra Niial bad om at det ikke skulle være konkurence
+                        cur.execute("INSERT INTO USERS VALUES(?,?)",(uid,name))
                         con.commit()
                        
                         count = 2
@@ -78,7 +82,7 @@ def ui():
                          #There should be some sql statements that changes which row is in use 
                          # SELET FROM USER WHERE ID IS x
                          #IMPLEMENT A CURRENT SCORE SYSTEM
-                         #cur.execute("SELECT * FROM USERS WHERE ID =(?) AND NAME = (?)",(uid,name))  
+                         cur.execute("SELECT * FROM USERS WHERE ID =(?) AND NAME = (?)",(uid,name))  
                          #def changedUser():
                               #changedUser= name
                               #return changedUser
@@ -89,12 +93,50 @@ def ui():
                         print("UPDATE YOUR SCORE TEST")
                         uid = input("Please enter your ID: ")
                         name = input("Please enter your name: ")
-                        print("TEST, GIVE 10 POINTS ")
-                        cur.execute("UPDATE USERS SET SCORE= SCORE+ 10 WHERE ID=(?) AND NAME =(?)",(uid, name))
-                        print("WE NEED SOME MORE INPUTS THAT LETS US CHOSE THE ACHIVEMENT WE WANT TO ADD / ACTIVATE ")
+                        #cur.execute("UPDATE USERS SET SCORE= SCORE+ 10 WHERE ID=(?) AND NAME =(?)",(uid, name))
+                        #print("WE NEED SOME MORE INPUTS THAT LETS US CHOSE THE ACHIVEMENT WE WANT TO ADD / ACTIVATE ")
+                        bug_fixes = input("""Please enter how many bugs you have killed, Your options are:
+9 or less bugs fixed
+10 bugs fixed,
+50 bugs fixed,
+150 bugs fixed,
+300 bugs fixed,
+500 bugs fixed,
+750 bugs fixed,
+850 bugs fixed or
+990 bugs fixed: \n""")
+                        if bug_fixes == "9":
+                            print("Good Job. You are close to earning an achivement")
+                        elif bug_fixes == "10":
+                             ach_ide_3.achiveinsert(11)
+
+                        elif bug_fixes == "50":
+                             ach_ide_3.achiveinsert(51)
                         
+                        elif bug_fixes == "150":
+                             ach_ide_3.achiveinsert(151)
+                        
+                        elif bug_fixes == "300":
+                             ach_ide_3.achiveinsert(301)
+                        
+                        elif bug_fixes == "500":
+                             ach_ide_3.achiveinsert(501)
+                        
+                        elif bug_fixes == "750":
+                             ach_ide_3.achiveinsert(751)
+                        
+                        elif bug_fixes == "850":
+                             ach_ide_3.achiveinsert(851)
+                        
+                        elif bug_fixes == "990":
+                             ach_ide_3.achiveinsert(991)    
+                       
+                        else:
+                             print("WRONG INPUT,try again")
+                        
+                            
                         count= 2
-                                                                    
+                        #return bug_fixes                                            
                     
                     elif menu == "admin":
                         print("Are you sure you would like to wipe the database of all its data?\n Press y if you want to delete all data, Press n if you don't want to wipe the database of all its data")
@@ -120,6 +162,7 @@ def ui():
                 print("That is not a valid option\n Please try again")
                     
 ui()
+
 
 # def NotUsedYet():
 #                     elif menu == "99":
