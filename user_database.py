@@ -26,10 +26,10 @@ def createUserTable():
     #cur.execute(f"INSERT INTO ")
     con.commit()
 
+def closeUserTable():
+    con.close()
+
 # def DropUserTable():
 #     Tablename = input("Which table are you deleting? ")
 #     print("Deleting table")
 #     cur.execute(f"DROP TABLE {Tablename}")
-
-#createUserTable()
-#DropUserTable()
