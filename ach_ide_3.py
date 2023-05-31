@@ -132,7 +132,7 @@ def achiveinsert(bug_fixes, Tablename):
 
     # Print achievement status
     for achievement in achievements:
-        uid,name, description, completed = achievement
+        uid,name, description, completed, times = achievement
         print(f"UID: {uid}")
         print(f"Achievement: {name}")
         print(f"Description: {description}")
