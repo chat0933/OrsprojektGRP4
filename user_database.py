@@ -29,7 +29,7 @@ def createUserTable():
 def closeUserTable():
     con.close()
 
-# def DropUserTable():
-#     Tablename = input("Which table are you deleting? ")
-#     print("Deleting table")
-#     cur.execute(f"DROP TABLE {Tablename}")
+def DropUserTable():
+    Tablename = input("Which table are you deleting? ")
+    print("Deleting table")
+    cur.execute(f"DROP TABLE {Tablename}")

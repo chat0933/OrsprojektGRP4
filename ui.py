@@ -28,8 +28,8 @@ def ui():
 
 
                     print("Wellcome to Niila Games achivement scoreboard")
-                    print(" Press 1 To register a new user(NOT WORKING ANYMORE)\n Press 2 to change the user(YOU NEED TO USE THIS FUNCTION BEFORE USING UPDATING)\n Press 3 to update your progress (STILL IN DEVELEOPMENT!!!)\n Press Crtl+ c to exit the program")
-                    print(" Enter the secret password to wipe the database")
+                    print(" Press 1 To register a new user(NOT WORKING ANYMORE, USE THE WEBSITE TO REGISTER YOUR USER)\n Press 2 to change the user(YOU NEED TO USE THIS FUNCTION BEFORE USING UPDATING)\n Press 3 to update your progress\n Press Crtl+ c to exit the program")
+                    print(" Enter the secret password to wipe the database (NOT WORKING CURRENTLY)")
                     menu = input()
 
 
@@ -84,22 +84,25 @@ def ui():
                                                                    
                     
                     elif menu == "admin":
-                        print("Are you sure you would like to wipe the database of all its data?\n Press y if you want to delete all data, Press n if you don't want to wipe the database of all its data")
+                        #print("Are you sure you would like to wipe the database of all its data?\n Press y if you want to delete all data, Press n if you don't want to wipe the database of all its data")
+                        print("Are you sure you would like to delte a user from the database?\n Press y if thats what you intenden\n Press n to abort the action")
                         delete= input()
                         if delete == "y":
-                            print("Database wiped")
-                            print("We need to implement a delete function")
+                            #print("We need to implement a delete function")
+                            user_database.DropUserTable()
+                            print("User deleted...")
                         elif delete == "n":
                             print("Returning to main menu....")
 
                     def createdUser():
                         selectedUserName = cur.execute("SELECT * FROM users WHERE username =(?) ",[username])
-                        selectedUser = selectedUserName.fetchone()
+                        selectedUser = selectedUserName.fetchall()
                         return selectedUser
 
     except KeyboardInterrupt:
                 print(" Closing the connection....")
                 con.close
+                database.closeDatabase()
                 ach_ide_3.CloseAch()
                 user_database.closeUserTable()
                 SystemExit
