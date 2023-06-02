@@ -1,11 +1,14 @@
 #import sqlite3
+import ach_database
 import user_database
-import database
 from flask import Flask, redirect, url_for, render_template, request, session
 
 
 app = Flask(__name__)
 app.secret_key = "protector"
+
+#CREATE USER DATABASE IF NOT EXISTS
+user_database.createUserDB()
 
 #Den første side der åbner når vi runner flask
 @app.route("/")
@@ -20,7 +23,7 @@ def register():
         username = request.form['username']
         password = request.form['password']
 
-        database.register_user_to_db(username, password)
+        user_database.register_user_to_db(username, password)
         return redirect(url_for('index'))
     else:
         return render_template('register.html')
@@ -33,7 +36,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        if database.check_user(username, password):
+        if user_database.check_user(username, password):
             session['username'] = username
             return redirect(url_for('home'))
         else:
@@ -47,10 +50,10 @@ def login():
 def home():
     if 'username' in session:
         username = session['username']
-        user_tables = user_database.get_user_tables()
+        user_tables = ach_database.get_user_tables()
 
         if username in user_tables:
-            columns, rows = user_database.get_table_data(username)
+            columns, rows = ach_database.get_table_data(username)
             return render_template('user.html', username=username, columns=columns, rows=rows)
         else:
             return render_template('user.html', username=username, error=True)

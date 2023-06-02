@@ -1,5 +1,5 @@
 import sqlite3
-import user_database
+import ach_database
 
 class Achievement:
     def __init__(self, uid, name, description, times):
@@ -24,7 +24,7 @@ class Task:
         print(f"Achievement '{achievement_name}' not found for this task.")
               
 #conn = sqlite3.connect("achievements.db", check_same_thread= False)
-conn = sqlite3.connect("user_data.db", check_same_thread= False)
+conn = sqlite3.connect("ach_database.db", check_same_thread= False)
 cursor = conn.cursor()
 
 # Create achievements table
@@ -63,13 +63,11 @@ print("...\n")
 
 # DET VIRKER NU!!!!
 def achiveinsert(bug_fixes, Tablename):
-    user_database.createUserTable()
+    ach_database.createACHTable()
     if bug_fixes >= 10:  #or bug_fixes == 10:
         task1.complete_achievement("Bug Spray")      
         cursor.execute(f"INSERT OR IGNORE INTO [{Tablename}] VALUES (?, ?, ?, ?, ?)", (achievement1.uid, achievement1.name, achievement1.description, achievement1.completed, achievement1.times))
         cursor.execute(f"UPDATE [{Tablename}] SET times = times +1 WHERE uid ='1' ")
-                
-
 
     if  bug_fixes >= 50: #bug_fixes == 50 or  :
         task2.complete_achievement("Exterminator")
@@ -81,31 +79,26 @@ def achiveinsert(bug_fixes, Tablename):
         cursor.execute(f"INSERT OR IGNORE INTO [{Tablename}] VALUES (?, ?, ?, ?, ?)", (achievement3.uid, achievement3.name, achievement3.description, achievement3.completed,achievement3.times))
         cursor.execute(f"UPDATE [{Tablename}] SET times = times+1 WHERE uid ='3' ")             
     
-    
     if bug_fixes >= 300: # or bug_fixes == 300:
         task4.complete_achievement("THANOS")
         cursor.execute(f"INSERT OR IGNORE INTO [{Tablename}] VALUES (?, ?, ?, ?, ?)", (achievement4.uid, achievement4.name, achievement4.description, achievement4.completed, achievement4.times))
         cursor.execute(f"UPDATE [{Tablename}] SET times = times+1 WHERE uid ='4' ")
 
-
     if bug_fixes >= 500:  #or bug_fixes == 500:
         task5.complete_achievement("BuggerFugger")
         cursor.execute(f"INSERT OR IGNORE INTO [{Tablename}] VALUES (?, ?, ?, ?,?)", (achievement5.uid ,achievement5.name, achievement5.description, achievement5.completed, achievement5.times))
         cursor.execute(f"UPDATE [{Tablename}] SET times = times+1 WHERE uid ='5' ")
-
-        
+      
     if bug_fixes >= 750: # or bug_fixes == 750:
         task6.complete_achievement("ANTtomic bomb")
         cursor.execute(f"INSERT OR IGNORE INTO [{Tablename}] VALUES (?, ?, ? , ?, ?)", (achievement6.uid, achievement6.name, achievement6.description, achievement6.completed, achievement6.times))
         cursor.execute(f"UPDATE [{Tablename}] SET times = times+1 WHERE uid ='6' ")
-   
-   
+      
     #ORIGINAL 1000
     if bug_fixes >= 850: # or bug_fixes == 850:
         task7.complete_achievement("Weapon of Moth Destruction")
         cursor.execute(f"INSERT OR IGNORE INTO [{Tablename}]  VALUES (?, ?, ?, ?, ?)", (achievement7.uid, achievement7.name, achievement7.description, achievement7.completed, achievement7.times))
         cursor.execute(f"UPDATE [{Tablename}]  SET times = times+1 WHERE uid ='7' ")
-
 
     #ORIGINAL 5000
     if bug_fixes >= 990: # or bug_fixes == 900:

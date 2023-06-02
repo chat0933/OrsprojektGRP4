@@ -1,16 +1,16 @@
 import sqlite3
 import ach_ide_3
+import ach_database
 import user_database
-import database
 
 
-con = sqlite3.connect('database.db')
+con = sqlite3.connect('user_database.db')
 
 def ui():
     emptyUser = ""
     count = 1
     try:
-        database.createUserDB()
+        user_database.createUserDB()
         while True:
                 with con:
                     cur= con.cursor()
@@ -89,7 +89,7 @@ def ui():
                         delete= input()
                         if delete == "y":
                             #print("We need to implement a delete function")
-                            user_database.DropUserTable()
+                            ach_database.DropUserTable()
                             print("User deleted...")
                         elif delete == "n":
                             print("Returning to main menu....")
@@ -102,9 +102,9 @@ def ui():
     except KeyboardInterrupt:
                 print(" Closing the connection....")
                 con.close
-                database.closeDatabase()
+                #database.closeDatabase()
                 ach_ide_3.CloseAch()
-                user_database.closeUserTable()
-                SystemExit
+                ach_database.closeUserTable()
+                #SystemExit
                     
 ui()
