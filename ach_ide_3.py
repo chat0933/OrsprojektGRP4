@@ -66,7 +66,7 @@ def achiveinsert(bug_fixes, Tablename):
     ach_database.createACHTable()
     if bug_fixes >= 10:  #or bug_fixes == 10:
         task1.complete_achievement("Bug Spray")      
-        cursor.execute(f"INSERT OR IGNORE INTO [{Tablename}] VALUES (?, ?, ?, ?, ?)", (achievement1.uid, achievement1.name, achievement1.description, achievement1.completed, achievement1.times))
+        cursor.execute(f"INSERT OR IGNORE INTO [{Tablename}] VALUES (?, ?, ?, ?, ?)", (achievement1.uid, achievement1.name, achievement1.description, achievement1.completed, achievement1.times))# Oplevede at der var problemer med at få opdateret tables med mindre IGNORE anvendes fordi den prøvede at lave table igen
         cursor.execute(f"UPDATE [{Tablename}] SET times = times +1 WHERE uid ='1' ")
 
     if  bug_fixes >= 50: #bug_fixes == 50 or  :
