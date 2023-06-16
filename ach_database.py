@@ -9,7 +9,7 @@ cur = con.cursor()
 
 #Her får vi table names fra user_data.db som indeholder achievements for hver bruger. 
 def get_user_tables():
-    cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")
+    cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'") #Vi vælger name fra ALT i ach_database.db hvor typen er table. og den sidste del fra AND af, gør at vi ikke henter alle tables der findes i de allerede eksisterende databaser i SQLite.
     tables = cur.fetchall()
     return [table[0] for table in tables]
 
